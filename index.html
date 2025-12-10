@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Abdourahmane Doumbouya – Freelance Production Designer for Hometap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --ht-primary: #30167e;
+      --ht-secondary: #30167e; /* same as primary, but kept separate for flexibility */
+      --ht-accent: #86c4c6;
+
+      --bg: #ffffff;
+      --text-main: #1b1238;
+      --text-muted: #6e6a8c;
+      --glass-bg: rgba(255, 255, 255, 0.82);
+      --glass-border: rgba(255, 255, 255, 0.9);
+      --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.08);
+      --radius-lg: 22px;
+      --radius-xl: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Hometap illustration anchored bottom-right */
+    .bg-illustration {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      width: min(900px, 60vw);
+      max-width: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.95;
+    }
+
+    .bg-illustration img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Page shell */
+    .shell {
+      max-width: 1080px;
+      margin: 86px auto 64px;
+      padding: 0 22px 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Top header bar */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.96),
+        rgba(255, 255, 255, 0.88),
+        transparent
+      );
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(229, 229, 245, 0.7);
+    }
+
+    .top-bar-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 10px 22px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .top-left img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
+    .top-title {
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ht-primary);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .top-subtitle {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .top-right {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .top-right a {
+      color: var(--ht-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .top-right a:hover {
+      text-decoration: underline;
+    }
+
+    /* Glass cards */
+    .glass-card {
+      border-radius: var(--radius-xl);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(20px);
+      padding: 22px 22px 20px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(134, 196, 198, 0.16), transparent 55%),
+        radial-gradient(circle at 110% 0%, rgba(48, 22, 126, 0.13), transparent 60%);
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .glass-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Fade-in animation */
+    .fade-section {
+      opacity: 0;
+      transform: translateY(26px) scale(0.985);
+      transition:
+        opacity 0.7s ease-out,
+        transform 0.7s ease-out;
+      will-change: opacity, transform;
+    }
+
+    .fade-section.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 24px 26px 22px;
+    }
+
+    .hero-header {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .hero-name-block {
+      max-width: 65%;
+      min-width: 260px;
+    }
+
+    .hero-name {
+      font-size: 1.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--ht-primary);
+    }
+
+    .hero-role {
+      margin-top: 4px;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-badges {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      border-radius: 999px;
+      padding: 4px 10px 5px;
+      border: 1px solid rgba(48, 22, 126, 0.14);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ht-primary);
+      white-space: nowrap;
+    }
+
+    .badge--accent {
+      border-color: var(--ht-accent);
+      background: rgba(134, 196, 198, 0.16);
+      color: var(--ht-primary);
+      font-weight: 600;
+    }
+
+    .hero-summary {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .hero-summary span {
+      color: var(--ht-primary);
+      font-weight: 600;
+    }
+
+    /* Section titles */
+    .section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .sub-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin: 10px 0 6px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(48, 22, 126, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .chip--primary {
+      border-color: rgba(48, 22, 126, 0.4);
+      background: rgba(48, 22, 126, 0.06);
+      color: var(--ht-primary);
+      font-weight: 500;
+    }
+
+    .chip--accent {
+      border-color: rgba(134, 196, 198, 0.9);
+      background: rgba(134, 196, 198, 0.15);
+      color: var(--ht-primary);
+      font-weight: 500;
+    }
+
+    /* Experience items */
+    .experience-item {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(229, 229, 245, 0.9);
+      background: rgba(255, 255, 255, 0.98);
+      padding: 12px 14px 10px;
+      margin-bottom: 10px;
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .exp-role {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ht-primary);
+    }
+
+    .exp-company {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .exp-meta {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .exp-body {
+      font-size: 0.8rem;
+      color: var(--text-main);
+    }
+
+    .exp-body ul {
+      margin-top: 4px;
+      padding-left: 16px;
+    }
+
+    .exp-body li {
+      margin-bottom: 3px;
+    }
+
+    .small-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .footer-note span {
+      color: var(--ht-primary);
+      font-weight: 500;
+    }
+
+    @media (max-width: 820px) {
+      .shell {
+        margin-top: 98px;
+      }
+
+      .section-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-name-block {
+        max-width: 100%;
+      }
+
+      .top-bar-inner {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .top-right {
+        text-align: left;
+        align-items: flex-start;
+      }
+
+      .bg-illustration {
+        opacity: 0.2;
+        width: 90vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bottom-right illustration -->
+  <div class="bg-illustration">
+    <img src="BGHT.png" alt="Hometap-inspired home illustration" />
+  </div>
+
+  <!-- Header -->
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <div class="top-left">
+        <img src="ADHT.png" alt="Abdourahmane Doumbouya · Hometap mark" />
+        <div>
+          <div class="top-title">ABDOURAHMANE DOUMBOUYA</div>
+          <div class="top-subtitle">Freelance Production Designer · Hometap</div>
+        </div>
+      </div>
+      <div class="top-right">
+        <a href="mailto:abdou.doumbouya.777@gmail.com">abdou.doumbouya.777@gmail.com</a>
+        <a href="tel:+15082879266">+1 (508) 287-9266</a>
+        <span>Boston, MA · Remote / Freelance</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <main>
+      <!-- HERO -->
+      <section class="glass-card hero fade-section">
+        <div class="glass-inner">
+          <div class="hero-header">
+            <div class="hero-name-block">
+              <div class="hero-name">Abdourahmane “Caliph” Doumbouya</div>
+              <div class="hero-role">Freelance Production Designer · Marketing & Brand Systems</div>
+              <div class="hero-badges">
+                <span class="badge badge--accent">Multi-channel Asset Production</span>
+                <span class="badge">Brand Consistency</span>
+                <span class="badge">File Systems & QC</span>
+                <span class="badge">Remote Collaboration</span>
+              </div>
+            </div>
+          </div>
+          <p class="hero-summary">
+            Creative operations specialist and production-focused designer with over
+            <span>15 years</span> building organized file systems, updating and refining marketing assets, and
+            preparing production-ready artwork across web, social, email, print, and large-format campaigns.
+            I thrive on taking existing designs, tightening the details, and making sure every deliverable is
+            <span>on-brand, technically correct, and easy to reuse</span>—so teams can move faster with confidence.
+          </p>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="glass-card fade-section">
+        <div class="glass-inner">
+          <div class="section-title">Role-Focused Strengths for Hometap</div>
+          <div class="section-grid">
+            <div>
+              <div class="sub-label">Production Design & Brand Consistency</div>
+              <div class="chip-row">
+                <span class="chip chip--primary">Update & Refine Existing Assets</span>
+                <span class="chip chip--primary">Template-Based & Net-New Layouts</span>
+                <span class="chip chip--primary">Cross-Channel Resizing & Reformatting</span>
+                <span class="chip chip--primary">Layout, Typography & Hierarchy</span>
+                <span class="chip chip--primary">Web, Social, Email & Print Readiness</span>
+                <span class="chip chip--primary">Brand Guideline Stewardship</span>
+              </div>
+
+              <div class="sub-label">File Management & Production-Ready Delivery</div>
+              <div class="chip-row">
+                <span class="chip chip--accent">Organized Folder & Naming Systems</span>
+                <span class="chip">Version Control & Asset History</span>
+                <span class="chip">Production Specs (Size, DPI, Color)</span>
+                <span class="chip">Export Sets for Each Platform</span>
+                <span class="chip">Tight Turnarounds & Iteration</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="sub-label">Tools & Platforms</div>
+              <div class="chip-row">
+                <span class="chip chip--accent">Adobe Photoshop</span>
+                <span class="chip chip--accent">Adobe Illustrator</span>
+                <span class="chip chip--accent">Adobe InDesign</span>
+                <span class="chip">Adobe Dreamweaver</span>
+                <span class="chip">Figma (Layouts & Components)</span>
+                <span class="chip">Google Drive / Dropbox / OneDrive</span>
+                <span class="chip">Bynder · Brandfolder · AEM (concepts)</span>
+                <span class="chip">Microsoft Office · Asana · Notion</span>
+                <span class="chip">Salesforce · HubSpot · Zendesk</span>
+              </div>
+
+              <div class="sub-label">Languages & Collaboration</div>
+              <div class="chip-row">
+                <span class="chip chip--primary">English (Fluent)</span>
+                <span class="chip">French</span>
+                <span class="chip">Spanish</span>
+                <span class="chip">Wolof</span>
+                <span class="chip">Cape Verdean Creole</span>
+                <span class="chip">Remote & Cross-Functional Teams</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="glass-card fade-section">
+        <div class="glass-inner">
+          <div class="section-title">Selected Experience · Production Design & Operations</div>
+
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <div class="exp-role">Creative Director / Production Lead</div>
+                <div class="exp-company">META MindArt · Boston, MA · Mar 2025 – Present</div>
+              </div>
+              <div class="exp-meta">Brand Systems & Campaign Assets</div>
+            </div>
+            <div class="exp-body">
+              <ul>
+                <li>Lead design and production of decks, campaign visuals, and digital assets for mission-driven brands.</li>
+                <li>Refine layouts, typography, and imagery within established brand systems for clarity and consistency.</li>
+                <li>Maintain organized asset libraries and export sets for web, social, and presentation use.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <div class="exp-role">CEO / Creative Director / Lead Screen Printer</div>
+                <div class="exp-company">Bridge Impressions · New Bedford, MA · Nov 2022 – Dec 2024</div>
+              </div>
+              <div class="exp-meta">Apparel & Merchandise Production</div>
+            </div>
+            <div class="exp-body">
+              <ul>
+                <li>Produced production-ready graphics, mockups, and print files for apparel, merchandise, and packaging.</li>
+                <li>Rebuilt and adapted client artwork to meet technical specs (color modes, resolution, screen separations).</li>
+                <li>Created clear folder structures, naming conventions, and archives for repeat clients and reorders.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <div class="exp-role">Lead Designer / Branding Specialist</div>
+                <div class="exp-company">MA2K Impression · New Bedford, MA · May 2016 – Sept 2019</div>
+              </div>
+              <div class="exp-meta">Brand Kits & Local Campaigns</div>
+            </div>
+            <div class="exp-body">
+              <ul>
+                <li>Designed and produced logos, flyers, posters, apparel art, and web graphics for regional businesses.</li>
+                <li>Resized and reformatted core assets for print, signage, social media, and basic web layouts.</li>
+                <li>Delivered organized brand folders with layered source files and export-ready deliverables.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <div class="exp-role">Lead Designer & Web Developer</div>
+                <div class="exp-company">Savage Advertising Solutions · New Bedford, MA · Sept 2005 – Apr 2011</div>
+              </div>
+              <div class="exp-meta">Multi-Channel Small Business Creative</div>
+            </div>
+            <div class="exp-body">
+              <ul>
+                <li>Developed complete visual systems for small businesses: logos, websites, vehicle wraps, and signage.</li>
+                <li>Prepared final files for printers, sign shops, and developers, adjusting specs to each vendor’s requirements.</li>
+                <li>Maintained long-term libraries of campaigns, allowing quick refreshes and reuse of existing assets.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <div class="exp-role">Creative Director</div>
+                <div class="exp-company">Irokos Group, LLC · Boston, MA · Apr 2011 – Aug 2013</div>
+              </div>
+              <div class="exp-meta">Regulated Packaging & Trade Materials</div>
+            </div>
+            <div class="exp-body">
+              <ul>
+                <li>Created packaging, labels, and product visuals aligned with strict regulatory and brand standards.</li>
+                <li>Maintained multi-product artwork libraries and version history for label updates and new SKUs.</li>
+                <li>Delivered print-ready files and mockups for trade shows, sales materials, and digital channels.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="exp-header">
+              <div>
+                <div class="exp-role">Customer & Technical Support Roles</div>
+                <div class="exp-company">Experian Data Quality · LogMeIn · Honey · Thrive Market</div>
+              </div>
+              <div class="exp-meta">2013 – 2022</div>
+            </div>
+            <div class="exp-body">
+              <ul>
+                <li>Built strong remote collaboration and communication habits across globally distributed teams.</li>
+                <li>Documented issues and workflows precisely, informing internal knowledge bases and process improvements.</li>
+                <li>Balanced high-volume work, shifting priorities, and tight SLAs—experience that translates to managing multiple design requests.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION / RECOGNITION -->
+      <section class="glass-card fade-section">
+        <div class="glass-inner">
+          <div class="section-title">Background</div>
+          <div class="section-grid">
+            <div>
+              <div class="sub-label">Education</div>
+              <p class="exp-body">
+                <strong>GNB Voc-Tech High School – Programming & Web Design</strong><br />
+                New Bedford, MA · Class of 2007
+              </p>
+              <p class="small-note">
+                Early training in web layout, interface thinking, and structured digital work—foundations that now inform how I
+                build, name, and organize creative systems.
+              </p>
+            </div>
+            <div>
+              <div class="sub-label">Recognition</div>
+              <p class="exp-body">
+                <strong>Grammy Award Winning Artist</strong><br />
+                <strong>Motivational Speaker & Multi-disciplinary Creative Director</strong>
+              </p>
+              <p class="small-note">
+                These experiences reflect my ability to perform at a high level under visibility and pressure, while still loving
+                the quiet, detailed craft of refining assets behind the scenes.
+              </p>
+            </div>
+          </div>
+          <div class="footer-note">
+            Built as a tailored one-pager for <span>Hometap’s Freelance Production Designer</span> role—highlighting asset refinement,
+            production readiness, and organized systems that help teams do their best work.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // IntersectionObserver for fade-in
+    const fadeSections = document.querySelectorAll(".fade-section");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    fadeSections.forEach((sec) => observer.observe(sec));
+  </script>
+</body>
+</html>
