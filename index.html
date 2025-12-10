@@ -408,12 +408,22 @@
         opacity: 0.25;
         width: 90vw;
       }
+
+      /* stack exp header bits earlier on smaller widths */
+      .exp-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .exp-meta {
+        white-space: normal;
+      }
     }
 
     /* Small mobile refinements */
     @media (max-width: 600px) {
       .shell {
-        margin-top: 96px;
+        margin-top: 102px;              /* a bit more room under the header on iPhone */
         padding: 0 14px 36px;
       }
 
@@ -457,6 +467,7 @@
         font-size: 0.68rem;
         letter-spacing: 0.12em;
         padding: 3px 9px 4px;
+        white-space: normal;          /* let badges wrap instead of overflowing */
       }
 
       .hero-summary {
@@ -468,8 +479,10 @@
       }
 
       .section-title {
-        font-size: 0.76rem;
-        letter-spacing: 0.22em;
+        font-size: 0.74rem;
+        letter-spacing: 0.18em;       /* less tracking so long titles don’t look blown out */
+        line-height: 1.4;
+        word-break: break-word;
       }
 
       .sub-label {
@@ -480,7 +493,7 @@
       .chip {
         font-size: 0.74rem;
         max-width: 100%;
-        white-space: normal;
+        white-space: normal;          /* chips wrap nicely on narrow screens */
       }
 
       .exp-role {
